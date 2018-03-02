@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'ObjectKVO_Example' do
+  pod 'ObjectKVO', :path => '../'
+
+  target 'ObjectKVO_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
