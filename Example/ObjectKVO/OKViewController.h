@@ -1,8 +1,8 @@
 //
 //  OKViewController.h
-//  ObjectKVO
+//  ObjectKVO_Example
 //
-//  Created by wangchengqvan@gmail.com on 03/03/2018.
+//  Created by wangchengqvan@gmail.com on 01/02/2018.
 //  Copyright (c) 2018 wangchengqvan@gmail.com. All rights reserved.
 //
 

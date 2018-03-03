@@ -14,7 +14,6 @@
 		6003F598195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F596195388D20070C39A /* InfoPlist.strings */; };
 		6003F59A195388D20070C39A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F599195388D20070C39A /* main.m */; };
 		6003F59E195388D20070C39A /* OKAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F59D195388D20070C39A /* OKAppDelegate.m */; };
-		6003F5A7195388D20070C39A /* OKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5A6195388D20070C39A /* OKViewController.m */; };
 		6003F5A9195388D20070C39A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5A8195388D20070C39A /* Images.xcassets */; };
 		6003F5B0195388D20070C39A /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F5AF195388D20070C39A /* XCTest.framework */; };
 		6003F5B1195388D20070C39A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F58D195388D20070C39A /* Foundation.framework */; };
@@ -23,6 +22,8 @@
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
 		71719F9F1E33DC2100824A3D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		AAC025BC2049B778000EAEAA /* OKKVOViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC025B82049B777000EAEAA /* OKKVOViewController.m */; };
+		AAC025BD2049B778000EAEAA /* OKViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = AAC025B92049B777000EAEAA /* OKViewController.m */; };
 		D5E71741894899ACC248E8E5 /* Pods_ObjectKVO_Tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6FA625B526AA5FC8393129D /* Pods_ObjectKVO_Tests.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,7 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		05E8D46B7E32D510F7D6B62F /* ObjectKVO.podspec */ = {isa = PBXFileReference; includeInIndex = 1; name = ObjectKVO.podspec; path = ../ObjectKVO.podspec; sourceTree = "<group>"; };
+		05E8D46B7E32D510F7D6B62F /* ObjectKVO.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = ObjectKVO.podspec; path = ../ObjectKVO.podspec; sourceTree = "<group>"; };
 		4228AC2239375FCE1B43704F /* Pods-ObjectKVO_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjectKVO_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ObjectKVO_Tests/Pods-ObjectKVO_Tests.debug.xcconfig"; sourceTree = "<group>"; };
 		6003F58A195388D20070C39A /* ObjectKVO_Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ObjectKVO_Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F58D195388D20070C39A /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -49,8 +50,6 @@
 		6003F59B195388D20070C39A /* ObjectKVO-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ObjectKVO-Prefix.pch"; sourceTree = "<group>"; };
 		6003F59C195388D20070C39A /* OKAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OKAppDelegate.h; sourceTree = "<group>"; };
 		6003F59D195388D20070C39A /* OKAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OKAppDelegate.m; sourceTree = "<group>"; };
-		6003F5A5195388D20070C39A /* OKViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OKViewController.h; sourceTree = "<group>"; };
-		6003F5A6195388D20070C39A /* OKViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OKViewController.m; sourceTree = "<group>"; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6003F5AE195388D20070C39A /* ObjectKVO_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ObjectKVO_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6003F5AF195388D20070C39A /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -61,12 +60,16 @@
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A1C2A3BF2C71A575A3F72B2C /* Pods_ObjectKVO_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ObjectKVO_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAC025B82049B777000EAEAA /* OKKVOViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OKKVOViewController.m; sourceTree = "<group>"; };
+		AAC025B92049B777000EAEAA /* OKViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OKViewController.m; sourceTree = "<group>"; };
+		AAC025BA2049B777000EAEAA /* OKKVOViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OKKVOViewController.h; sourceTree = "<group>"; };
+		AAC025BB2049B777000EAEAA /* OKViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OKViewController.h; sourceTree = "<group>"; };
 		BDCA70AC49F696126F1C2D04 /* Pods-ObjectKVO_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjectKVO_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-ObjectKVO_Example/Pods-ObjectKVO_Example.release.xcconfig"; sourceTree = "<group>"; };
-		CAF48AAD33FD837EEE9EF9CD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
+		CAF48AAD33FD837EEE9EF9CD /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		D6FA625B526AA5FC8393129D /* Pods_ObjectKVO_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ObjectKVO_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E22FBA98CA52CFB23B7E58BF /* Pods-ObjectKVO_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjectKVO_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-ObjectKVO_Example/Pods-ObjectKVO_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		EC73C9AEA22FCA1ABE01C038 /* Pods-ObjectKVO_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ObjectKVO_Tests.release.xcconfig"; path = "Pods/Target Support Files/Pods-ObjectKVO_Tests/Pods-ObjectKVO_Tests.release.xcconfig"; sourceTree = "<group>"; };
-		F728081409D7304E79A2F87C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; name = README.md; path = ../README.md; sourceTree = "<group>"; };
+		F728081409D7304E79A2F87C /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,11 +135,13 @@
 		6003F593195388D20070C39A /* Example for ObjectKVO */ = {
 			isa = PBXGroup;
 			children = (
+				AAC025BA2049B777000EAEAA /* OKKVOViewController.h */,
+				AAC025B82049B777000EAEAA /* OKKVOViewController.m */,
+				AAC025BB2049B777000EAEAA /* OKViewController.h */,
+				AAC025B92049B777000EAEAA /* OKViewController.m */,
 				6003F59C195388D20070C39A /* OKAppDelegate.h */,
 				6003F59D195388D20070C39A /* OKAppDelegate.m */,
 				873B8AEA1B1F5CCA007FD442 /* Main.storyboard */,
-				6003F5A5195388D20070C39A /* OKViewController.h */,
-				6003F5A6195388D20070C39A /* OKViewController.m */,
 				71719F9D1E33DC2100824A3D /* LaunchScreen.storyboard */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
@@ -404,8 +409,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6003F59E195388D20070C39A /* OKAppDelegate.m in Sources */,
-				6003F5A7195388D20070C39A /* OKViewController.m in Sources */,
+				AAC025BD2049B778000EAEAA /* OKViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				AAC025BC2049B778000EAEAA /* OKKVOViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
