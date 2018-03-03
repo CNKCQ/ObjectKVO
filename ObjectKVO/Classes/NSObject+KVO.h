@@ -12,11 +12,11 @@ typedef void(^ObservingBlock)(id observedObject, NSString *observedKey, NSDictio
 
 @interface NSObject (KVO)
 
-- (void)cs_addObserver:(NSObject *)observer
+- (void)ok_addObserver:(NSObject *)observer
                 forKey:(NSString *)key
              withBlock:(ObservingBlock)block;
 
-- (void)cs_removeObserver:(NSObject *)observer
+- (void)ok_removeObserver:(NSObject *)observer
                    forKey:(NSString *)key;
 
 @end

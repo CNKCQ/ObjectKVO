@@ -38,21 +38,6 @@ NSString *const kKVOAssociatedObservers = @"KVOAssociatedObservers";
 
 @end
 
-
-#pragma mark - Debug Help Methods
-
-static NSArray *classMethodNames(Class class) {
-    NSMutableArray *array = [NSMutableArray array];
-    unsigned int methodCount = 0;
-    Method *methodList = class_copyMethodList(class, &methodCount);
-    unsigned int i;
-    for(i = 0; i < methodCount; i++) {
-        [array addObject: NSStringFromSelector(method_getName(methodList[i]))];
-    }
-    free(methodList);
-    return array;
-}
-
 #pragma mark - Helpers
 
 static NSString * getter4Setter(NSString *setter) {
@@ -113,31 +98,31 @@ static void kvo_setter(id self, SEL _cmd, ...) {
         result = va_arg(list, id);
     } else {
         if (!strcmp(returnType, @encode(char))) {
-            result = [NSNumber numberWithChar:va_arg(list, char)];
+            result = [NSNumber numberWithChar:va_arg(list, int)];
         } else if (!strcmp(returnType, @encode(int))) {
             result = [NSNumber numberWithInt:va_arg(list, int)];
         } else if (!strcmp(returnType, @encode(short))) {
-            result = [NSNumber numberWithShort:va_arg(list, short)];
+            result = [NSNumber numberWithShort:va_arg(list, int)];
         } else if (!strcmp(returnType, @encode(long))) {
             result = [NSNumber numberWithLong:va_arg(list, long)];
         } else if (!strcmp(returnType, @encode(long long))) {
             result = [NSNumber numberWithLongLong:va_arg(list, long long)];
         } else if (!strcmp(returnType, @encode(unsigned char))) {
-            result = [NSNumber numberWithUnsignedChar:va_arg(list, unsigned char)];
+            result = [NSNumber numberWithUnsignedChar:va_arg(list, unsigned int)];
         } else if (!strcmp(returnType, @encode(unsigned int))) {
             result = [NSNumber numberWithUnsignedInt:va_arg(list, unsigned int)];
         } else if (!strcmp(returnType, @encode(unsigned short))) {
-            result = [NSNumber numberWithUnsignedShort:va_arg(list, unsigned short)];
+            result = [NSNumber numberWithUnsignedShort:va_arg(list, unsigned int)];
         } else if (!strcmp(returnType, @encode(unsigned long))) {
             result = [NSNumber numberWithUnsignedLong:va_arg(list, unsigned long)];
         } else if (!strcmp(returnType, @encode(unsigned long long))) {
             result = [NSNumber numberWithUnsignedLongLong:va_arg(list, unsigned long long)];
         } else if (!strcmp(returnType, @encode(float))) {
-            result = [NSNumber numberWithFloat:va_arg(list, float)];
+            result = [NSNumber numberWithFloat:va_arg(list, double)];
         } else if (!strcmp(returnType, @encode(double))) {
             result = [NSNumber numberWithDouble: va_arg(list, double)];
         } else if (!strcmp(returnType, @encode(BOOL))) {
-            result = [NSNumber numberWithBool:va_arg(list, BOOL)];
+            result = [NSNumber numberWithBool:va_arg(list, int)];
         } else if (!strcmp(returnType, @encode(NSInteger))) {
             result = [NSNumber numberWithInteger:va_arg(list, NSInteger)];
         } else if (!strcmp(returnType, @encode(NSUInteger))) {
@@ -167,13 +152,13 @@ static void kvo_setter(id self, SEL _cmd, ...) {
         .super_class = class_getSuperclass(object_getClass(self))
     };
     // cast our pointer so the compiler won't complain
-    void (*objc_msgSendSuperCasted)(void *, SEL, void *) = (void *)objc_msgSendSuper;
+    void (*objc_msgSendSuperCasted)(void *, SEL, id) = (void *)objc_msgSendSuper;
     // call super's setter, which is original class's setter method
-    objc_msgSendSuperCasted(&superclass, _cmd, (__bridge void *)(result));
+    objc_msgSendSuperCasted(&superclass, _cmd, result);
     // look up observers and call the blocks
     NSMutableArray *observers = objc_getAssociatedObject(self, (__bridge const void *)(kKVOAssociatedObservers));
     for (ObservationInfo *each in observers) {
-        if (nil == each.observer) { // auto remove observers
+        if (nil == each.observer) {
             [observers removeObject:each];
             return;
         }
@@ -191,7 +176,7 @@ static void kvo_setter(id self, SEL _cmd, ...) {
 
 @implementation NSObject (KVO)
 
-- (void)cs_addObserver:(NSObject *)observer
+- (void)ok_addObserver:(NSObject *)observer
                 forKey:(NSString *)key
              withBlock:(ObservingBlock)block {
     SEL setterSelector = NSSelectorFromString(setter4Getter(key));
@@ -215,7 +200,6 @@ static void kvo_setter(id self, SEL _cmd, ...) {
         const char *types = method_getTypeEncoding(setterMethod);
         class_addMethod(class, setterSelector, (IMP)kvo_setter, types);
     }
-//    printDescription(@"test", class);
     ObservationInfo *info = [[ObservationInfo alloc] initWithObserver:observer Key:key block:block];
     NSMutableArray *observers = objc_getAssociatedObject(self, (__bridge const void *)(kKVOAssociatedObservers));
     if (!observers) {
@@ -227,12 +211,12 @@ static void kvo_setter(id self, SEL _cmd, ...) {
 
 
 /**
- Remove observer (opational)
+ Remove observer
 
  @param observer the observer
  @param key the key
  */
-- (void)cs_removeObserver:(NSObject *)observer forKey:(NSString *)key {
+- (void)ok_removeObserver:(NSObject *)observer forKey:(NSString *)key {
     NSMutableArray* observers = objc_getAssociatedObject(self, (__bridge const void *)(kKVOAssociatedObservers));
     ObservationInfo *infoToRemove;
     for (ObservationInfo* info in observers) {
