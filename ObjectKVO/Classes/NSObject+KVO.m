@@ -9,6 +9,7 @@
 #import <objc/runtime.h>
 #import <objc/message.h>
 
+
 //Not support Basic data type
 
 NSString *const kKVOClassPrefix = @"KVOClassPrefix_";
@@ -74,8 +75,10 @@ static Class kvo_class(id self, SEL _cmd)
 
 #pragma mark - Overridden Methods
 
-static void kvo_setter(id self, SEL _cmd, ...) {
 
+
+static void kvo_setter(id self, SEL _cmd, void *newValue) {
+    // can't get the double value
     NSString *setterName = NSStringFromSelector(_cmd);
     NSString *getterName = getter4Setter(setterName);
     if (!getterName) {
@@ -86,67 +89,65 @@ static void kvo_setter(id self, SEL _cmd, ...) {
         return;
     }
     SEL getterMethod = NSSelectorFromString(getterName);
-    id oldok = [self valueForKey:getterName];
+    id oldValue = [self valueForKey:getterName];
     NSMethodSignature *sig = [self methodSignatureForSelector:getterMethod];
     const char *returnType = sig.methodReturnType;
     id result;
-    va_list list;
-    va_start(list, _cmd);
+    // 一开始是用 va_list 的方式获取参数，结果发现 arm64 下不可用 See: http://blog.cnbang.net/tech/2808/
     if(!strcmp(returnType, @encode(void))){
         result =  nil;
     } else if (!strcmp(returnType, @encode(id))){
-        result = va_arg(list, id);
+        result = (__bridge id)(newValue);
     } else {
+        // TODO: NOT ALL TEST YET
         if (!strcmp(returnType, @encode(char))) {
-            result = [NSNumber numberWithChar:va_arg(list, int)];
+            result = [NSNumber numberWithChar:*(char *)&newValue];
         } else if (!strcmp(returnType, @encode(int))) {
-            result = [NSNumber numberWithInt:va_arg(list, int)];
+            result = [NSNumber numberWithInt:*(int *)&newValue];
         } else if (!strcmp(returnType, @encode(short))) {
-            result = [NSNumber numberWithShort:va_arg(list, int)];
+            result = [NSNumber numberWithShort:*(short *)&newValue];
         } else if (!strcmp(returnType, @encode(long))) {
-            result = [NSNumber numberWithLong:va_arg(list, long)];
+            result = [NSNumber numberWithLong:*(long *)&newValue];
         } else if (!strcmp(returnType, @encode(long long))) {
-            result = [NSNumber numberWithLongLong:va_arg(list, long long)];
+            result = [NSNumber numberWithLongLong:*(long long *)&newValue];
         } else if (!strcmp(returnType, @encode(unsigned char))) {
-            result = [NSNumber numberWithUnsignedChar:va_arg(list, unsigned int)];
+            result = [NSNumber numberWithUnsignedChar:*(unsigned char *)&newValue];
         } else if (!strcmp(returnType, @encode(unsigned int))) {
-            result = [NSNumber numberWithUnsignedInt:va_arg(list, unsigned int)];
+            result = [NSNumber numberWithUnsignedInt:*(unsigned int *)&newValue];
         } else if (!strcmp(returnType, @encode(unsigned short))) {
-            result = [NSNumber numberWithUnsignedShort:va_arg(list, unsigned int)];
+            result = [NSNumber numberWithUnsignedShort:*(unsigned short *)&newValue];
         } else if (!strcmp(returnType, @encode(unsigned long))) {
-            result = [NSNumber numberWithUnsignedLong:va_arg(list, unsigned long)];
+            result = [NSNumber numberWithUnsignedLong:*(unsigned long *)&newValue];
         } else if (!strcmp(returnType, @encode(unsigned long long))) {
-            result = [NSNumber numberWithUnsignedLongLong:va_arg(list, unsigned long long)];
+            result = [NSNumber numberWithUnsignedLongLong:*(unsigned long long *)&newValue];
         } else if (!strcmp(returnType, @encode(float))) {
-            result = [NSNumber numberWithFloat:va_arg(list, double)];
+            result = [NSNumber numberWithFloat:*(float *)&newValue];
         } else if (!strcmp(returnType, @encode(double))) {
-            result = [NSNumber numberWithDouble: va_arg(list, double)];
+            result = [NSNumber numberWithDouble:*(double *)&newValue];
         } else if (!strcmp(returnType, @encode(BOOL))) {
-            result = [NSNumber numberWithBool:va_arg(list, int)];
+            result = [NSNumber numberWithBool:*(BOOL *)&newValue];
         } else if (!strcmp(returnType, @encode(NSInteger))) {
-            result = [NSNumber numberWithInteger:va_arg(list, NSInteger)];
+            result = [NSNumber numberWithInteger:*(NSInteger *)&newValue];
         } else if (!strcmp(returnType, @encode(NSUInteger))) {
-            result = [NSNumber numberWithUnsignedInteger:va_arg(list, NSUInteger)];
+            result = [NSNumber numberWithUnsignedInteger:*(NSUInteger *)&newValue];
         } else if (!strcmp(returnType, @encode(CGPoint))) {
-            result = [NSValue valueWithCGPoint:va_arg(list, CGPoint)];
+            result = [NSValue valueWithCGPoint:*(CGPoint *)&newValue];
         } else if (!strcmp(returnType, @encode(CGVector))) {
-            result = [NSValue valueWithCGVector:va_arg(list, CGVector)];
+            result = [NSValue valueWithCGVector:*(CGVector *)&newValue];
         } else if (!strcmp(returnType, @encode(CGSize))) {
-            result = [NSValue valueWithCGSize:va_arg(list, CGSize)];
+            result = [NSValue valueWithCGSize:*(CGSize *)&newValue];
         } else if (!strcmp(returnType, @encode(CGRect))) {
-            result = [NSValue valueWithCGRect:va_arg(list, CGRect)];
+            result = [NSValue valueWithCGRect:*(CGRect *)&newValue];
         } else if (!strcmp(returnType, @encode(CGAffineTransform))) {
-            result = [NSValue valueWithCGAffineTransform:va_arg(list, CGAffineTransform)];
+            result = [NSValue valueWithCGAffineTransform:*(CGAffineTransform *)&newValue];
         } else if (!strcmp(returnType, @encode(UIEdgeInsets))) {
-            result = [NSValue valueWithUIEdgeInsets:va_arg(list, UIEdgeInsets)];
+            result = [NSValue valueWithUIEdgeInsets:*(UIEdgeInsets *)&newValue];
         } else if (!strcmp(returnType, @encode(UIOffset))) {
-            result = [NSValue valueWithUIOffset:va_arg(list, UIOffset)];
+            result = [NSValue valueWithUIOffset:*(UIOffset *)&newValue];
         } else {
             result = nil;
         }
     }
-    va_end(list);
-
     struct objc_super superclass = {
         .receiver = self,
         .super_class = class_getSuperclass(object_getClass(self))
@@ -164,8 +165,8 @@ static void kvo_setter(id self, SEL _cmd, ...) {
         }
         if ([each.key isEqualToString:getterName]) {
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                NSDictionary<NSKeyValueChangeKey,id> *change = @{
-                                                                 NSKeyValueChangeOldKey: oldok
+                NSDictionary<NSKeyValueChangeKey, id> *change = @{
+                                                                 NSKeyValueChangeOldKey: oldValue
                                                                  ,             NSKeyValueChangeNewKey: result
                                                                  };
                 each.block(self, getterName, change);

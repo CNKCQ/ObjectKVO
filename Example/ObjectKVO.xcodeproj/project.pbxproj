@@ -255,6 +255,9 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "wangchengqvan@gmail.com";
 				TargetAttributes = {
+					6003F589195388D20070C39A = {
+						DevelopmentTeam = 8P2R9XN7Q8;
+					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
 					};
@@ -561,6 +564,7 @@
 			baseConfigurationReference = E22FBA98CA52CFB23B7E58BF /* Pods-ObjectKVO_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 8P2R9XN7Q8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ObjectKVO/ObjectKVO-Prefix.pch";
 				INFOPLIST_FILE = "ObjectKVO/ObjectKVO-Info.plist";
@@ -576,6 +580,7 @@
 			baseConfigurationReference = BDCA70AC49F696126F1C2D04 /* Pods-ObjectKVO_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 8P2R9XN7Q8;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "ObjectKVO/ObjectKVO-Prefix.pch";
 				INFOPLIST_FILE = "ObjectKVO/ObjectKVO-Info.plist";

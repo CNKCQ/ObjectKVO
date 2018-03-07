@@ -11,7 +11,7 @@
 
 @interface Person: NSObject
 
-@property (nonatomic, assign) CGFloat age;
+@property (nonatomic, assign) NSInteger age;
 
 @property (nonatomic, strong) Person *son;
 
@@ -50,6 +50,10 @@
     [_person ok_addObserver:self forKey:@"yesOrNot" withBlock:^(id observedObject, NSString *observedKey, NSDictionary<NSKeyValueChangeKey,id> *change) {
         NSLog(@"oldValue == %@ --- newValue == %@", change[NSKeyValueChangeOldKey], change[NSKeyValueChangeNewKey]);
     }];
+    [_person ok_addObserver:self forKey:@"age" withBlock:^(id observedObject, NSString *observedKey, NSDictionary<NSKeyValueChangeKey,id> *change) {
+        NSLog(@"oldValue == %@ --- newValue == %@", change[NSKeyValueChangeOldKey], change[NSKeyValueChangeNewKey]);
+    }];
+
 
     _person.yesOrNot = NO;
     _person.age = 23;
