@@ -99,37 +99,42 @@ static void kvo_setter(id self, SEL _cmd, void *newValue) {
     } else if (!strcmp(returnType, @encode(id))){
         result = (__bridge id)(newValue);
     } else {
+        #define RESULT_VALUE_WITH(type) \
+        do { \
+            result = [NSNumber numberWithUnsignedInteger:*(type *)&newValue];\
+        } while(0);
+
         // TODO: NOT ALL TEST YET
         if (!strcmp(returnType, @encode(char))) {
-            result = [NSNumber numberWithChar:*(char *)&newValue];
+            RESULT_VALUE_WITH(char);
         } else if (!strcmp(returnType, @encode(int))) {
-            result = [NSNumber numberWithInt:*(int *)&newValue];
+            RESULT_VALUE_WITH(int);
         } else if (!strcmp(returnType, @encode(short))) {
-            result = [NSNumber numberWithShort:*(short *)&newValue];
+            RESULT_VALUE_WITH(short);
         } else if (!strcmp(returnType, @encode(long))) {
-            result = [NSNumber numberWithLong:*(long *)&newValue];
+            RESULT_VALUE_WITH(long);
         } else if (!strcmp(returnType, @encode(long long))) {
-            result = [NSNumber numberWithLongLong:*(long long *)&newValue];
+            RESULT_VALUE_WITH(long long);
         } else if (!strcmp(returnType, @encode(unsigned char))) {
-            result = [NSNumber numberWithUnsignedChar:*(unsigned char *)&newValue];
+            RESULT_VALUE_WITH(unsigned char);
         } else if (!strcmp(returnType, @encode(unsigned int))) {
-            result = [NSNumber numberWithUnsignedInt:*(unsigned int *)&newValue];
+            RESULT_VALUE_WITH(unsigned int);
         } else if (!strcmp(returnType, @encode(unsigned short))) {
-            result = [NSNumber numberWithUnsignedShort:*(unsigned short *)&newValue];
+            RESULT_VALUE_WITH(unsigned short);
         } else if (!strcmp(returnType, @encode(unsigned long))) {
-            result = [NSNumber numberWithUnsignedLong:*(unsigned long *)&newValue];
+            RESULT_VALUE_WITH(unsigned long);
         } else if (!strcmp(returnType, @encode(unsigned long long))) {
-            result = [NSNumber numberWithUnsignedLongLong:*(unsigned long long *)&newValue];
+            RESULT_VALUE_WITH(unsigned long long);
         } else if (!strcmp(returnType, @encode(float))) {
-            result = [NSNumber numberWithFloat:*(float *)&newValue];
+            RESULT_VALUE_WITH(float);
         } else if (!strcmp(returnType, @encode(double))) {
-            result = [NSNumber numberWithDouble:*(double *)&newValue];
+            RESULT_VALUE_WITH(double);
         } else if (!strcmp(returnType, @encode(BOOL))) {
-            result = [NSNumber numberWithBool:*(BOOL *)&newValue];
+            RESULT_VALUE_WITH(BOOL);
         } else if (!strcmp(returnType, @encode(NSInteger))) {
-            result = [NSNumber numberWithInteger:*(NSInteger *)&newValue];
+            RESULT_VALUE_WITH(NSInteger);
         } else if (!strcmp(returnType, @encode(NSUInteger))) {
-            result = [NSNumber numberWithUnsignedInteger:*(NSUInteger *)&newValue];
+            RESULT_VALUE_WITH(NSUInteger);
         } else if (!strcmp(returnType, @encode(CGPoint))) {
             result = [NSValue valueWithCGPoint:*(CGPoint *)&newValue];
         } else if (!strcmp(returnType, @encode(CGVector))) {
